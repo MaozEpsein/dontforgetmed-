@@ -13,10 +13,12 @@ import com.dontforgetmed.app.ui.edit.EditMedicationScreen
 import com.dontforgetmed.app.ui.edit.EditMedicationViewModel
 import com.dontforgetmed.app.ui.home.HomeScreen
 import com.dontforgetmed.app.ui.home.HomeViewModel
+import com.dontforgetmed.app.ui.settings.SettingsScreen
 
 object Routes {
     const val HOME = "home"
     const val EDIT = "edit/{medId}"
+    const val SETTINGS = "settings"
     fun edit(medId: Long) = "edit/$medId"
 }
 
@@ -30,7 +32,11 @@ fun AppNav(repository: MedicationRepository) {
                 viewModel = vm,
                 onAddMedication = { nav.navigate(Routes.edit(0L)) },
                 onEditMedication = { id -> nav.navigate(Routes.edit(id)) },
+                onOpenSettings = { nav.navigate(Routes.SETTINGS) },
             )
+        }
+        composable(Routes.SETTINGS) {
+            SettingsScreen(onBack = { nav.popBackStack() })
         }
         composable(
             route = Routes.EDIT,

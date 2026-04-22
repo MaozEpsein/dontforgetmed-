@@ -19,6 +19,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -52,17 +53,25 @@ fun HomeScreen(
     viewModel: HomeViewModel,
     onAddMedication: () -> Unit,
     onEditMedication: (Long) -> Unit = {},
+    onOpenSettings: () -> Unit = {},
 ) {
     val doses by viewModel.doses.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
-            TopAppBar(title = {
-                Column {
-                    Text(stringResource(R.string.app_name), style = MaterialTheme.typography.titleLarge)
-                    Text(stringResource(R.string.today), style = MaterialTheme.typography.bodyMedium)
+            TopAppBar(
+                title = {
+                    Column {
+                        Text(stringResource(R.string.app_name), style = MaterialTheme.typography.titleLarge)
+                        Text(stringResource(R.string.today), style = MaterialTheme.typography.bodyMedium)
+                    }
+                },
+                actions = {
+                    IconButton(onClick = onOpenSettings) {
+                        Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.settings))
+                    }
                 }
-            })
+            )
         },
         floatingActionButton = {
             FloatingActionButton(

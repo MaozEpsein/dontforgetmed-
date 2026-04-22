@@ -29,5 +29,14 @@
     <string name="delete_confirm_text">הפעולה תמחק את כל התזמונים וההיסטוריה של התרופה.</string>
     <string name="notif_title">זמן ל%1$s</string>
     <string name="notif_default_body">הגיע הזמן ליטול את התרופה</string>
+    <string name="share_headline">מכירה מישהו שתשמח לעזור לו לזכור?</string>
+    <string name="share_subtitle">סרוק את ה-QR או שלח את הקישור</string>
+    <string name="qr_desc">קוד QR להורדת האפליקציה</string>
+    <string name="share_message">הי! תנסה את האפליקציה הזאת — היא מזכירה לקחת תרופות בזמן:\n%1$s</string>
+    <string name="permissions_title">הרשאות והתראות</string>
+    <string name="permissions_subtitle">אם לא מקבל התראות בזמן, פתח את ההגדרות של המכשיר ואפשר "Alarms &amp; reminders".</string>
+    <string name="open_exact_alarm_settings">הגדרות התראות מדויקות</string>
+    <string name="open_app_settings">הגדרות האפליקציה</string>
+    <string name="version_label">גרסה %1$s</string>
     <string name="share_with_friend">שתף עם חבר</string>
 </resources>
