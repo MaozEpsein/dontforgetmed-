@@ -8,6 +8,7 @@ import androidx.core.app.NotificationCompat
 import com.dontforgetmed.app.MainActivity
 import com.dontforgetmed.app.R
 import com.dontforgetmed.app.data.entity.Medication
+import com.dontforgetmed.app.ui.snooze.SnoozeDialogActivity
 
 object ReminderNotifications {
 
@@ -32,6 +33,7 @@ object ReminderNotifications {
 
         val takePi = actionPendingIntent(context, logId, DoseActionReceiver.ACTION_TAKE)
         val skipPi = actionPendingIntent(context, logId, DoseActionReceiver.ACTION_SKIP)
+        val snoozePi = snoozePendingIntent(context, logId)
 
         val dosageLine = medication.dosage.ifBlank { context.getString(R.string.notif_default_body) }
         val title = context.getString(R.string.notif_title, medication.name)
@@ -47,6 +49,7 @@ object ReminderNotifications {
             .setContentIntent(contentPi)
             .addAction(0, context.getString(R.string.take), takePi)
             .addAction(0, context.getString(R.string.skip), skipPi)
+            .addAction(0, context.getString(R.string.snooze_action), snoozePi)
             .setWhen(scheduledAt)
 
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -63,8 +66,25 @@ object ReminderNotifications {
             this.action = action
             putExtra(DoseActionReceiver.EXTRA_LOG_ID, logId)
         }
-        val requestCode = (logId.toInt() shl 4) or (if (action == DoseActionReceiver.ACTION_TAKE) 1 else 2)
+        val actionBits = when (action) {
+            DoseActionReceiver.ACTION_TAKE -> 1
+            DoseActionReceiver.ACTION_SKIP -> 2
+            else -> 3
+        }
+        val requestCode = (logId.toInt() shl 4) or actionBits
         return PendingIntent.getBroadcast(
+            context, requestCode, intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+        )
+    }
+
+    private fun snoozePendingIntent(context: Context, logId: Long): PendingIntent {
+        val intent = Intent(context, SnoozeDialogActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            putExtra(SnoozeDialogActivity.EXTRA_LOG_ID, logId)
+        }
+        val requestCode = (logId.toInt() shl 4) or 4
+        return PendingIntent.getActivity(
             context, requestCode, intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )

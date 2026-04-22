@@ -29,6 +29,13 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.snooze.SnoozeDialogActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.DontForgetMed.Transparent" />
+
         <receiver
             android:name=".notifications.AlarmReceiver"
             android:exported="false" />

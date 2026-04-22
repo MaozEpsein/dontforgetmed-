@@ -52,5 +52,13 @@
     <string name="field_interval_hours">מרווח בשעות</string>
     <string name="field_interval_days">מרווח בימים</string>
     <string name="field_anchor_time">שעת תחילה</string>
+    <string name="snooze_action">דחה</string>
+    <string name="snooze_title">לדחות את התזכורת?</string>
+    <string name="snooze_subtitle">בחר מתי תרצה לקבל שוב את ההתראה</string>
+    <string name="snooze_15">15 דקות</string>
+    <string name="snooze_30">30 דקות</string>
+    <string name="snooze_60">שעה</string>
+    <string name="snooze_custom">בחר שעה אחרת…</string>
+    <string name="snooze_pick_time">בחר שעה לתזכורת הבאה</string>
     <string name="share_with_friend">שתף עם חבר</string>
 </resources>

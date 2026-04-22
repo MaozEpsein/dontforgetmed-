@@ -5,37 +5,29 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
 
+    <!-- Ponytail behind head (female cue) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M 44,23 L 36,33 L 40,40 L 48,30 Z" />
+
     <!-- Head -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M54,30 m-9,0 a9,9 0 1,0 18,0 a9,9 0 1,0 -18,0" />
+        android:pathData="M 44,32 a 8,8 0 1,0 16,0 a 8,8 0 1,0 -16,0 Z" />
 
-    <!-- Neck -->
+    <!-- Upper torso (neck + chest) -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M50,38 h8 v5 h-8 z" />
+        android:pathData="M 47,42 L 57,42 L 57,62 L 47,62 Z" />
 
-    <!-- Body with pregnant belly curve (silhouette facing right) -->
+    <!-- Pregnant belly: a large prominent circle protruding to the right -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M50,43
-                         C 44,46 42,52 42,58
-                         C 42,66 45,74 50,82
-                         L 50,90
-                         L 58,90
-                         L 58,82
-                         C 62,76 64,70 66,64
-                         C 74,63 78,58 78,52
-                         C 78,46 72,42 66,44
-                         C 62,43 58,42 58,42
-                         Z" />
+        android:pathData="M 50,62 a 15,15 0 1,0 30,0 a 15,15 0 1,0 -30,0 Z" />
 
-    <!-- Arm supporting belly -->
+    <!-- Legs -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M58,52
-                         C 64,54 68,58 70,62
-                         C 68,60 64,59 60,60
-                         Z" />
+        android:pathData="M 46,62 L 60,62 L 57,90 L 48,90 Z" />
 
 </vector>

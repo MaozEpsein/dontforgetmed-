@@ -13,16 +13,19 @@ import java.util.Calendar
 object AlarmScheduler {
 
     const val ACTION_FIRE = "com.dontforgetmed.app.action.FIRE"
+    const val ACTION_SNOOZE_FIRE = "com.dontforgetmed.app.action.SNOOZE_FIRE"
     const val EXTRA_SCHEDULE_ID = "scheduleId"
     const val EXTRA_MEDICATION_ID = "medicationId"
     const val EXTRA_SCHEDULED_AT = "scheduledAt"
+    const val EXTRA_LOG_ID = "logId"
+    private const val SNOOZE_REQUEST_OFFSET = 3_000_000
 
     fun scheduleNext(context: Context, schedule: Schedule) {
         if (!schedule.active || schedule.daysOfWeek == 0) return
         val nextAt = computeNextTrigger(schedule) ?: return
         val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        val pi = buildPendingIntent(context, schedule, nextAt)
+        val pi = buildPendingIntent(context, schedule, nextAt) ?: return
 
         val canExact = Build.VERSION.SDK_INT < Build.VERSION_CODES.S || am.canScheduleExactAlarms()
         if (canExact) {
@@ -42,6 +45,28 @@ object AlarmScheduler {
 
     fun rescheduleAll(context: Context, schedules: List<Schedule>) {
         schedules.forEach { scheduleNext(context, it) }
+    }
+
+    fun scheduleSnooze(context: Context, logId: Long, delayMinutes: Int) {
+        val triggerAt = System.currentTimeMillis() + delayMinutes.coerceAtLeast(1) * 60_000L
+        val intent = Intent(context, AlarmReceiver::class.java).apply {
+            action = ACTION_SNOOZE_FIRE
+            putExtra(EXTRA_LOG_ID, logId)
+        }
+        val pi = PendingIntent.getBroadcast(
+            context,
+            (logId.toInt() + SNOOZE_REQUEST_OFFSET),
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+        ) ?: return
+
+        val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val canExact = Build.VERSION.SDK_INT < Build.VERSION_CODES.S || am.canScheduleExactAlarms()
+        if (canExact) {
+            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, pi)
+        } else {
+            am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAt, pi)
+        }
     }
 
     private fun buildPendingIntent(

@@ -22,6 +22,7 @@ class MedicationRepository(
 
     suspend fun getMedication(id: Long) = medicationDao.getById(id)
     suspend fun getSchedulesFor(medicationId: Long) = scheduleDao.getForMedication(medicationId)
+    suspend fun getDoseLog(logId: Long) = doseLogDao.getById(logId)
 
     suspend fun upsertMedication(m: Medication): Long =
         if (m.id == 0L) medicationDao.insert(m) else { medicationDao.update(m); m.id }
