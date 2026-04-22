@@ -3,6 +3,14 @@
     <string name="app_name">Don\'t Forget Med</string>
     <string name="add_medication">הוספת תרופה</string>
     <string name="empty_today">אין תרופות להיום 🎉\nהקישי על + כדי להוסיף תרופה חדשה</string>
+    <string name="empty_title">יום נקי 🌿</string>
+    <string name="empty_subtitle">אין תרופות מתוזמנות להיום.\nתוכל להוסיף תרופה חדשה בלחיצה על הכפתור למטה.</string>
+    <string name="app_tagline">תזכורות פשוטות לתרופות, בזמן</string>
+    <string name="section_details">פרטי התרופה</string>
+    <string name="section_look">מראה</string>
+    <string name="section_schedule">תזמון</string>
+    <string name="section_stock">מלאי</string>
+    <string name="preview_name_placeholder">שם התרופה</string>
     <string name="take">נלקח</string>
     <string name="skip">דלג</string>
     <string name="today">היום</string>

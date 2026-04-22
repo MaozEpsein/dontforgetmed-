@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- Soft circular background -->
+    <path
+        android:fillColor="#D4F4E8"
+        android:pathData="M100,100 m-90,0 a90,90 0 1,0 180,0 a90,90 0 1,0 -180,0" />
+
+    <!-- Outer ring accent -->
+    <path
+        android:fillColor="#A7E8D4"
+        android:pathData="M100,100 m-72,0 a72,72 0 1,0 144,0 a72,72 0 1,0 -144,0
+                          M100,100 m-60,0 a60,60 0 1,0 120,0 a60,60 0 1,0 -120,0
+                          Z"
+        android:fillType="evenOdd" />
+
+    <!-- Pill shape (horizontal capsule) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M65,100 h70 a20,20 0 0,1 0,40 h-70 a20,20 0 0,1 0,-40 z" />
+
+    <!-- Pill left half tinted -->
+    <path
+        android:fillColor="#0B9E8A"
+        android:pathData="M65,100 h35 v40 h-35 a20,20 0 0,1 0,-40 z" />
+
+    <!-- Pill divider line -->
+    <path
+        android:fillColor="#087668"
+        android:pathData="M98,102 h4 v36 h-4 z" />
+
+    <!-- Small coral sparkle top-right -->
+    <path
+        android:fillColor="#FF9B82"
+        android:pathData="M150,55 l4,10 l10,4 l-10,4 l-4,10 l-4,-10 l-10,-4 l10,-4 z" />
+
+    <!-- Smaller sparkle bottom-left -->
+    <path
+        android:fillColor="#FFD6CC"
+        android:pathData="M45,155 l2,5 l5,2 l-5,2 l-2,5 l-2,-5 l-5,-2 l5,-2 z" />
+
+    <!-- Tiny sparkle -->
+    <path
+        android:fillColor="#FF9B82"
+        android:pathData="M55,55 l2,4 l4,2 l-4,2 l-2,4 l-2,-4 l-4,-2 l4,-2 z" />
+
+</vector>

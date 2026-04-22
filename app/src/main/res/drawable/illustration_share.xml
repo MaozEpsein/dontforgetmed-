@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="160dp"
+    android:height="160dp"
+    android:viewportWidth="160"
+    android:viewportHeight="160">
+
+    <!-- Background soft circle -->
+    <path
+        android:fillColor="#D4F4E8"
+        android:pathData="M80,80 m-70,0 a70,70 0 1,0 140,0 a70,70 0 1,0 -140,0" />
+
+    <!-- Heart shape centered -->
+    <path
+        android:fillColor="#FF9B82"
+        android:pathData="M80,110
+                          C 80,105 60,95 55,78
+                          C 52,65 60,55 70,55
+                          C 75,55 78,58 80,62
+                          C 82,58 85,55 90,55
+                          C 100,55 108,65 105,78
+                          C 100,95 80,105 80,110 Z" />
+
+    <!-- Small pill shape accent -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M40,35 h18 a9,9 0 0,1 0,18 h-18 a9,9 0 0,1 0,-18 z" />
+    <path
+        android:fillColor="#0B9E8A"
+        android:pathData="M40,35 h9 v18 h-9 a9,9 0 0,1 0,-18 z" />
+
+    <!-- Sparkles -->
+    <path
+        android:fillColor="#FFD6CC"
+        android:pathData="M125,45 l2,5 l5,2 l-5,2 l-2,5 l-2,-5 l-5,-2 l5,-2 z" />
+    <path
+        android:fillColor="#A7E8D4"
+        android:pathData="M30,120 l2,5 l5,2 l-5,2 l-2,5 l-2,-5 l-5,-2 l5,-2 z" />
+
+</vector>

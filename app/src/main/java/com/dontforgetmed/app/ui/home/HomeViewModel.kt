@@ -16,6 +16,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -26,6 +27,8 @@ data class TodayDose(
     val schedule: Schedule,
     val scheduledAt: Long,
 )
+
+data class TodayStats(val taken: Int, val total: Int)
 
 sealed interface HomeEvent {
     data class DoseMarked(val logId: Long, val takenLabel: Boolean) : HomeEvent
@@ -66,6 +69,13 @@ class HomeViewModel(
             TodayDose(log, med, sch, log.scheduledAt)
         }.sortedBy { it.scheduledAt }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
+    val stats: StateFlow<TodayStats> = doses.map { list ->
+        TodayStats(
+            taken = list.count { it.log.status == DoseStatus.TAKEN },
+            total = list.size,
+        )
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), TodayStats(0, 0))
 
     fun markTaken(log: DoseLog) = viewModelScope.launch {
         val med = repo.markDose(log.id, DoseStatus.TAKEN)
