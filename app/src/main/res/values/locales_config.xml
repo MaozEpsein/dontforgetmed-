@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Force Hebrew as primary locale; app is designed RTL Hebrew only for now -->
+</resources>

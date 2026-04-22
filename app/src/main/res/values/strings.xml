@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Don\'t Forget Med</string>
+    <string name="add_medication">הוספת תרופה</string>
+    <string name="empty_today">אין תרופות להיום 🎉\nהקישי על + כדי להוסיף תרופה חדשה</string>
+    <string name="take">נלקח</string>
+    <string name="skip">דלג</string>
+    <string name="today">היום</string>
+    <string name="settings">הגדרות</string>
+    <string name="share_with_friend">שתף עם חבר</string>
+</resources>
