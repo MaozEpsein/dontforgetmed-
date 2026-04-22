@@ -7,5 +7,7 @@
     <string name="skip">דלג</string>
     <string name="today">היום</string>
     <string name="settings">הגדרות</string>
+    <string name="taken_status">נלקח ✓</string>
+    <string name="skipped_status">דולג</string>
     <string name="share_with_friend">שתף עם חבר</string>
 </resources>
