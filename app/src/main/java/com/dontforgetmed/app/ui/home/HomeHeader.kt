@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Medication
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -57,20 +59,32 @@ fun HomeHeader(
                 .statusBarsPadding()
                 .padding(horizontal = 20.dp, vertical = 16.dp),
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Column(Modifier.weight(1f)) {
-                    Text(
-                        text = greetingFor(),
-                        style = MaterialTheme.typography.titleLarge,
-                        color = Color.White.copy(alpha = 0.9f),
-                        fontWeight = FontWeight.Medium,
-                    )
-                    Text(
-                        text = todayString(),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = Color.White.copy(alpha = 0.75f),
+            // App name badge (row)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Box(
+                    Modifier
+                        .size(36.dp)
+                        .background(Color.White.copy(alpha = 0.22f), RoundedCornerShape(10.dp)),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        Icons.Default.Medication,
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.size(22.dp),
                     )
                 }
+                Spacer(Modifier.width(10.dp))
+                Text(
+                    text = stringResource(R.string.app_name),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                )
+                Spacer(Modifier.weight(1f))
                 IconButton(
                     onClick = onOpenSettings,
                     modifier = Modifier
@@ -83,6 +97,22 @@ fun HomeHeader(
                         tint = Color.White,
                     )
                 }
+            }
+
+            Spacer(Modifier.height(16.dp))
+
+            Column {
+                Text(
+                    text = greetingFor(),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = Color.White.copy(alpha = 0.9f),
+                    fontWeight = FontWeight.Medium,
+                )
+                Text(
+                    text = todayString(),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.White.copy(alpha = 0.75f),
+                )
             }
 
             Spacer(Modifier.height(20.dp))

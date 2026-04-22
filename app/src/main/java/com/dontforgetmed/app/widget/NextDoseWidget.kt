@@ -77,13 +77,33 @@ class NextDoseWidget : GlanceAppWidget() {
         val taken = logs.count { it.status == DoseStatus.TAKEN }
         val total = logs.size
         if (total == 0) {
-            return NextDoseSnapshot(0, "", "", "#6A5AE0", 0, 0, 0, 0, allDone = false)
+            return NextDoseSnapshot(
+                logId = 0L,
+                name = "",
+                dosage = "",
+                colorHex = "#6A5AE0",
+                minuteOfDay = 0,
+                scheduledAt = 0L,
+                takenToday = 0,
+                totalToday = 0,
+                allDone = false,
+            )
         }
 
         val pending = logs.filter { it.status == DoseStatus.PENDING }.sortedBy { it.scheduledAt }
         val now = System.currentTimeMillis()
         val next = pending.firstOrNull { it.scheduledAt >= now } ?: pending.firstOrNull()
-            ?: return NextDoseSnapshot(0, "", "", "#6A5AE0", 0, taken, total, allDone = true)
+            ?: return NextDoseSnapshot(
+                logId = 0L,
+                name = "",
+                dosage = "",
+                colorHex = "#6A5AE0",
+                minuteOfDay = 0,
+                scheduledAt = 0L,
+                takenToday = taken,
+                totalToday = total,
+                allDone = true,
+            )
 
         val med = medById[next.medicationId] ?: return null
         val sched = schedById[next.scheduleId]

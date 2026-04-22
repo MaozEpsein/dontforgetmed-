@@ -20,7 +20,7 @@ class MarkTakenAction : ActionCallback {
         val med = app.repository.markDose(logId, DoseStatus.TAKEN)
         ReminderNotifications.cancel(context, logId)
         med?.let { StockNotifications.maybeNotifyLowStock(context, it) }
-        NextDoseWidget().update(context, glanceId)
+        WidgetUpdater.updateAll(context)
     }
 
     companion object {

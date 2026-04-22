@@ -38,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -46,6 +47,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dontforgetmed.app.R
+import com.dontforgetmed.app.util.CelebrationPrefs
 
 @Composable
 fun HomeScreen(
@@ -57,14 +59,13 @@ fun HomeScreen(
     val doses by viewModel.doses.collectAsStateWithLifecycle()
     val stats by viewModel.stats.collectAsStateWithLifecycle()
     val snackbarHost = remember { SnackbarHostState() }
+    val context = LocalContext.current
     var showCelebration by remember { mutableStateOf(false) }
-    var lastCelebratedKey by remember { mutableStateOf(0 to 0) }
 
     LaunchedEffect(stats.taken, stats.total) {
-        val current = stats.taken to stats.total
-        if (stats.total > 0 && stats.taken == stats.total && current != lastCelebratedKey) {
-            lastCelebratedKey = current
+        if (stats.total > 0 && stats.taken == stats.total && CelebrationPrefs.shouldShow(context)) {
             showCelebration = true
+            CelebrationPrefs.markShown(context)
         }
     }
     val haptic = LocalHapticFeedback.current
