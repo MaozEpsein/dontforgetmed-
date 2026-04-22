@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.dontforgetmed.app.ui.AppNav
 import com.dontforgetmed.app.ui.theme.DontForgetMedTheme
 
@@ -19,6 +20,7 @@ class MainActivity : ComponentActivity() {
     ) { /* ignored — user can enable later from settings */ }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         askNotificationPermissionIfNeeded()

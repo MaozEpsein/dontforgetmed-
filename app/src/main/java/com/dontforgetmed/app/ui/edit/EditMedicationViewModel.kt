@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.dontforgetmed.app.data.MedicationRepository
+import com.dontforgetmed.app.data.entity.FrequencyType
 import com.dontforgetmed.app.data.entity.Medication
 import com.dontforgetmed.app.data.entity.Schedule
 import com.dontforgetmed.app.notifications.AlarmScheduler
@@ -24,6 +25,10 @@ data class EditUiState(
     val stockCount: String = "0",
     val lowStockThreshold: String = "5",
     val colorHex: String = "#00897B",
+    val iconKey: String = "pill",
+    val frequencyType: FrequencyType = FrequencyType.DAILY_AT_TIME,
+    val intervalHours: String = "8",
+    val intervalDays: String = "2",
     val times: List<TimeEntry> = listOf(TimeEntry(8 * 60)),
     val loading: Boolean = false,
     val saved: Boolean = false,
@@ -45,6 +50,7 @@ class EditMedicationViewModel(
     private fun load() = viewModelScope.launch {
         val med = repo.getMedication(medicationId) ?: return@launch
         val schedules = repo.getSchedulesFor(medicationId)
+        val firstFreq = schedules.firstOrNull()?.frequencyType ?: FrequencyType.DAILY_AT_TIME
         _state.value = EditUiState(
             id = med.id,
             name = med.name,
@@ -53,6 +59,10 @@ class EditMedicationViewModel(
             stockCount = med.stockCount.toString(),
             lowStockThreshold = med.lowStockThreshold.toString(),
             colorHex = med.colorHex,
+            iconKey = med.iconKey,
+            frequencyType = firstFreq,
+            intervalHours = (schedules.firstOrNull()?.intervalHours?.takeIf { it > 0 } ?: 8).toString(),
+            intervalDays = (schedules.firstOrNull()?.intervalDays?.takeIf { it > 0 } ?: 2).toString(),
             times = schedules.map { TimeEntry(it.minuteOfDay, it.daysOfWeek) }
                 .ifEmpty { listOf(TimeEntry(8 * 60)) },
             loading = false,
@@ -65,6 +75,10 @@ class EditMedicationViewModel(
     fun setStock(v: String) = _state.update { it.copy(stockCount = v.filter(Char::isDigit)) }
     fun setLowStock(v: String) = _state.update { it.copy(lowStockThreshold = v.filter(Char::isDigit)) }
     fun setColor(hex: String) = _state.update { it.copy(colorHex = hex) }
+    fun setIcon(key: String) = _state.update { it.copy(iconKey = key) }
+    fun setFrequencyType(t: FrequencyType) = _state.update { it.copy(frequencyType = t) }
+    fun setIntervalHours(v: String) = _state.update { it.copy(intervalHours = v.filter(Char::isDigit)) }
+    fun setIntervalDays(v: String) = _state.update { it.copy(intervalDays = v.filter(Char::isDigit)) }
 
     fun addTime(minuteOfDay: Int) = _state.update {
         it.copy(times = (it.times + TimeEntry(minuteOfDay)).sortedBy { t -> t.minuteOfDay })
@@ -98,17 +112,42 @@ class EditMedicationViewModel(
             stockCount = s.stockCount.toIntOrNull() ?: 0,
             lowStockThreshold = s.lowStockThreshold.toIntOrNull() ?: 5,
             colorHex = s.colorHex,
+            iconKey = s.iconKey,
         )
         val savedId = repo.upsertMedication(med)
-        // cancel previous alarms for this medication
         repo.getSchedulesFor(savedId).forEach { AlarmScheduler.cancel(appContext, it) }
-        repo.replaceSchedules(
-            savedId,
-            s.times.map { Schedule(medicationId = savedId, minuteOfDay = it.minuteOfDay, daysOfWeek = it.daysOfWeek) }
-        )
-        // reschedule with new ids
-        val newSchedules = repo.getSchedulesFor(savedId)
-        newSchedules.forEach { AlarmScheduler.scheduleNext(appContext, it) }
+
+        val hours = (s.intervalHours.toIntOrNull() ?: 8).coerceAtLeast(1)
+        val days = (s.intervalDays.toIntOrNull() ?: 2).coerceAtLeast(1)
+        val schedules = when (s.frequencyType) {
+            FrequencyType.DAILY_AT_TIME -> s.times.map {
+                Schedule(
+                    medicationId = savedId,
+                    minuteOfDay = it.minuteOfDay,
+                    daysOfWeek = it.daysOfWeek,
+                    frequencyType = FrequencyType.DAILY_AT_TIME,
+                )
+            }
+            FrequencyType.EVERY_N_HOURS -> listOf(
+                Schedule(
+                    medicationId = savedId,
+                    minuteOfDay = s.times.first().minuteOfDay,
+                    frequencyType = FrequencyType.EVERY_N_HOURS,
+                    intervalHours = hours,
+                )
+            )
+            FrequencyType.EVERY_N_DAYS -> s.times.map {
+                Schedule(
+                    medicationId = savedId,
+                    minuteOfDay = it.minuteOfDay,
+                    frequencyType = FrequencyType.EVERY_N_DAYS,
+                    intervalDays = days,
+                    startDate = System.currentTimeMillis(),
+                )
+            }
+        }
+        repo.replaceSchedules(savedId, schedules)
+        repo.getSchedulesFor(savedId).forEach { AlarmScheduler.scheduleNext(appContext, it) }
         _state.update { it.copy(saved = true) }
     }
 

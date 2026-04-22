@@ -33,11 +33,23 @@ class MedicationRepository(
         schedules.forEach { scheduleDao.insert(it.copy(medicationId = medicationId)) }
     }
 
-    suspend fun markDose(logId: Long, status: DoseStatus) {
+    suspend fun markDose(logId: Long, status: DoseStatus): Medication? {
+        val log = doseLogDao.getById(logId) ?: return null
+        val prev = log.status
         doseLogDao.setStatus(logId, status, System.currentTimeMillis())
-        if (status == DoseStatus.TAKEN) {
-            doseLogDao.getById(logId)?.let { medicationDao.decrementStock(it.medicationId) }
+        if (status == DoseStatus.TAKEN && prev != DoseStatus.TAKEN) {
+            medicationDao.decrementStock(log.medicationId)
+        } else if (prev == DoseStatus.TAKEN && status != DoseStatus.TAKEN) {
+            // undo: give the pill back to stock
+            medicationDao.getById(log.medicationId)?.let {
+                medicationDao.update(it.copy(stockCount = it.stockCount + 1))
+            }
         }
+        return medicationDao.getById(log.medicationId)
+    }
+
+    suspend fun revertDose(logId: Long) {
+        markDose(logId, DoseStatus.PENDING)
     }
 
     suspend fun ensureDoseLog(medicationId: Long, scheduleId: Long, scheduledAt: Long): Long {

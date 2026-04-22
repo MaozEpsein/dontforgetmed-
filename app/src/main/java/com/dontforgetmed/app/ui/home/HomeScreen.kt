@@ -31,13 +31,20 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -45,6 +52,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dontforgetmed.app.R
 import com.dontforgetmed.app.data.entity.DoseStatus
+import com.dontforgetmed.app.ui.icons.MedIconCatalog
 import com.dontforgetmed.app.util.Time
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,6 +64,27 @@ fun HomeScreen(
     onOpenSettings: () -> Unit = {},
 ) {
     val doses by viewModel.doses.collectAsStateWithLifecycle()
+    val snackbarHost = remember { SnackbarHostState() }
+    val haptic = LocalHapticFeedback.current
+    val takenMessage = stringResource(R.string.dose_marked_taken)
+    val skippedMessage = stringResource(R.string.dose_marked_skipped)
+    val undoLabel = stringResource(R.string.undo)
+
+    LaunchedEffect(Unit) {
+        viewModel.events.collect { event ->
+            when (event) {
+                is HomeEvent.DoseMarked -> {
+                    val result = snackbarHost.showSnackbar(
+                        message = if (event.takenLabel) takenMessage else skippedMessage,
+                        actionLabel = undoLabel,
+                    )
+                    if (result == SnackbarResult.ActionPerformed) {
+                        viewModel.undo(event.logId)
+                    }
+                }
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -80,7 +109,8 @@ fun HomeScreen(
             ) {
                 Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add_medication))
             }
-        }
+        },
+        snackbarHost = { SnackbarHost(snackbarHost) },
     ) { padding ->
         if (doses.isEmpty()) {
             EmptyState(Modifier.padding(padding))
@@ -95,8 +125,14 @@ fun HomeScreen(
                 items(doses, key = { it.log.id }) { dose ->
                     DoseCard(
                         dose = dose,
-                        onTake = { viewModel.markTaken(dose.log) },
-                        onSkip = { viewModel.markSkipped(dose.log) },
+                        onTake = {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            viewModel.markTaken(dose.log)
+                        },
+                        onSkip = {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            viewModel.markSkipped(dose.log)
+                        },
                         onEdit = { onEditMedication(dose.medication.id) },
                     )
                 }
@@ -126,24 +162,26 @@ private fun DoseCard(
     onSkip: () -> Unit,
     onEdit: () -> Unit = {},
 ) {
-    val resolved = dose.log.status != DoseStatus.PENDING
     val medColor = runCatching { Color(android.graphics.Color.parseColor(dose.medication.colorHex)) }
         .getOrDefault(MaterialTheme.colorScheme.primary)
 
     Card(
         modifier = Modifier.fillMaxWidth().clickable { onEdit() },
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-        ),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {
         Column(Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(
-                    Modifier
-                        .size(16.dp)
-                        .background(medColor, CircleShape)
-                )
+                    Modifier.size(44.dp).background(medColor.copy(alpha = 0.15f), CircleShape),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        imageVector = MedIconCatalog.iconFor(dose.medication.iconKey),
+                        contentDescription = null,
+                        tint = medColor,
+                    )
+                }
                 Spacer(Modifier.size(12.dp))
                 Column(Modifier.weight(1f)) {
                     Text(

@@ -4,10 +4,38 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
+
+    <!-- Head -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M54,34m-18,0a18,18 0 1,0 36,0a18,18 0 1,0 -36,0" />
+        android:pathData="M54,30 m-9,0 a9,9 0 1,0 18,0 a9,9 0 1,0 -18,0" />
+
+    <!-- Neck -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M44,58h20v20h-20z" />
+        android:pathData="M50,38 h8 v5 h-8 z" />
+
+    <!-- Body with pregnant belly curve (silhouette facing right) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M50,43
+                         C 44,46 42,52 42,58
+                         C 42,66 45,74 50,82
+                         L 50,90
+                         L 58,90
+                         L 58,82
+                         C 62,76 64,70 66,64
+                         C 74,63 78,58 78,52
+                         C 78,46 72,42 66,44
+                         C 62,43 58,42 58,42
+                         Z" />
+
+    <!-- Arm supporting belly -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M58,52
+                         C 64,54 68,58 70,62
+                         C 68,60 64,59 60,60
+                         Z" />
+
 </vector>

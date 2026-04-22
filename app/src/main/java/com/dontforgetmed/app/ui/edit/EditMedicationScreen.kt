@@ -6,6 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -24,6 +27,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -47,9 +51,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dontforgetmed.app.R
+import com.dontforgetmed.app.data.entity.FrequencyType
+import com.dontforgetmed.app.ui.icons.MedIconCatalog
 import com.dontforgetmed.app.util.Time
 
 private val PRESET_COLORS = listOf(
@@ -57,14 +62,13 @@ private val PRESET_COLORS = listOf(
 )
 private val DAY_LABELS = listOf("א", "ב", "ג", "ד", "ה", "ו", "ש")
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun EditMedicationScreen(
     viewModel: EditMedicationViewModel,
     onDone: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-
     LaunchedEffect(state.saved) { if (state.saved) onDone() }
 
     var timePickerIndex by remember { mutableStateOf<Int?>(null) }
@@ -146,6 +150,37 @@ fun EditMedicationScreen(
                 minLines = 2,
             )
 
+            Text(stringResource(R.string.field_icon), style = MaterialTheme.typography.titleMedium)
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                MedIconCatalog.items.forEach { item ->
+                    val selected = item.key == state.iconKey
+                    Box(
+                        Modifier
+                            .size(48.dp)
+                            .background(
+                                if (selected) MaterialTheme.colorScheme.primary.copy(alpha = 0.15f) else Color.Transparent,
+                                CircleShape,
+                            )
+                            .border(
+                                width = if (selected) 2.dp else 1.dp,
+                                color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline,
+                                shape = CircleShape,
+                            )
+                            .clickable { viewModel.setIcon(item.key) },
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Icon(
+                            imageVector = item.icon,
+                            contentDescription = item.label,
+                            tint = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+                        )
+                    }
+                }
+            }
+
             Text(stringResource(R.string.field_color), style = MaterialTheme.typography.titleMedium)
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 PRESET_COLORS.forEach { hex ->
@@ -165,7 +200,58 @@ fun EditMedicationScreen(
             }
 
             Spacer(Modifier.height(8.dp))
-            Text(stringResource(R.string.field_times), style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.field_frequency), style = MaterialTheme.typography.titleMedium)
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FilterChip(
+                    selected = state.frequencyType == FrequencyType.DAILY_AT_TIME,
+                    onClick = { viewModel.setFrequencyType(FrequencyType.DAILY_AT_TIME) },
+                    label = { Text(stringResource(R.string.freq_daily)) },
+                )
+                FilterChip(
+                    selected = state.frequencyType == FrequencyType.EVERY_N_HOURS,
+                    onClick = { viewModel.setFrequencyType(FrequencyType.EVERY_N_HOURS) },
+                    label = { Text(stringResource(R.string.freq_hours)) },
+                )
+                FilterChip(
+                    selected = state.frequencyType == FrequencyType.EVERY_N_DAYS,
+                    onClick = { viewModel.setFrequencyType(FrequencyType.EVERY_N_DAYS) },
+                    label = { Text(stringResource(R.string.freq_days)) },
+                )
+            }
+
+            when (state.frequencyType) {
+                FrequencyType.EVERY_N_HOURS -> {
+                    OutlinedTextField(
+                        value = state.intervalHours,
+                        onValueChange = viewModel::setIntervalHours,
+                        label = { Text(stringResource(R.string.field_interval_hours)) },
+                        modifier = Modifier.fillMaxWidth(),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        singleLine = true,
+                    )
+                }
+                FrequencyType.EVERY_N_DAYS -> {
+                    OutlinedTextField(
+                        value = state.intervalDays,
+                        onValueChange = viewModel::setIntervalDays,
+                        label = { Text(stringResource(R.string.field_interval_days)) },
+                        modifier = Modifier.fillMaxWidth(),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        singleLine = true,
+                    )
+                }
+                else -> {}
+            }
+
+            Spacer(Modifier.height(4.dp))
+            Text(
+                text = when (state.frequencyType) {
+                    FrequencyType.DAILY_AT_TIME -> stringResource(R.string.field_times)
+                    FrequencyType.EVERY_N_HOURS -> stringResource(R.string.field_anchor_time)
+                    FrequencyType.EVERY_N_DAYS -> stringResource(R.string.field_times)
+                },
+                style = MaterialTheme.typography.titleMedium,
+            )
 
             state.times.forEachIndexed { index, entry ->
                 Card(Modifier.fillMaxWidth()) {
@@ -180,30 +266,34 @@ fun EditMedicationScreen(
                                     .padding(8.dp),
                             )
                             Spacer(Modifier.weight(1f))
-                            IconButton(onClick = { viewModel.removeTime(index) }) {
-                                Icon(Icons.Default.Close, contentDescription = stringResource(R.string.remove))
+                            if (state.frequencyType == FrequencyType.DAILY_AT_TIME && state.times.size > 1) {
+                                IconButton(onClick = { viewModel.removeTime(index) }) {
+                                    Icon(Icons.Default.Close, contentDescription = stringResource(R.string.remove))
+                                }
                             }
                         }
-                        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                            DAY_LABELS.forEachIndexed { dayIdx, label ->
-                                val bit = 1 shl dayIdx
-                                val on = (entry.daysOfWeek and bit) != 0
-                                Box(
-                                    Modifier
-                                        .size(36.dp)
-                                        .background(
-                                            if (on) MaterialTheme.colorScheme.primary else Color.Transparent,
-                                            CircleShape,
+                        if (state.frequencyType == FrequencyType.DAILY_AT_TIME) {
+                            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                                DAY_LABELS.forEachIndexed { dayIdx, label ->
+                                    val bit = 1 shl dayIdx
+                                    val on = (entry.daysOfWeek and bit) != 0
+                                    Box(
+                                        Modifier
+                                            .size(36.dp)
+                                            .background(
+                                                if (on) MaterialTheme.colorScheme.primary else Color.Transparent,
+                                                CircleShape,
+                                            )
+                                            .border(1.dp, MaterialTheme.colorScheme.primary, CircleShape)
+                                            .clickable { viewModel.toggleDay(index, bit) },
+                                        contentAlignment = Alignment.Center,
+                                    ) {
+                                        Text(
+                                            text = label,
+                                            color = if (on) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary,
+                                            fontWeight = FontWeight.SemiBold,
                                         )
-                                        .border(1.dp, MaterialTheme.colorScheme.primary, CircleShape)
-                                        .clickable { viewModel.toggleDay(index, bit) },
-                                    contentAlignment = Alignment.Center,
-                                ) {
-                                    Text(
-                                        text = label,
-                                        color = if (on) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary,
-                                        fontWeight = FontWeight.SemiBold,
-                                    )
+                                    }
                                 }
                             }
                         }
@@ -211,8 +301,10 @@ fun EditMedicationScreen(
                 }
             }
 
-            TextButton(onClick = { showAddTime = true }) {
-                Text(stringResource(R.string.add_time))
+            if (state.frequencyType == FrequencyType.DAILY_AT_TIME) {
+                TextButton(onClick = { showAddTime = true }) {
+                    Text(stringResource(R.string.add_time))
+                }
             }
 
             Spacer(Modifier.height(16.dp))

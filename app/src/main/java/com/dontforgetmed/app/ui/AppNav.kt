@@ -27,7 +27,8 @@ fun AppNav(repository: MedicationRepository) {
     val nav = rememberNavController()
     NavHost(navController = nav, startDestination = Routes.HOME) {
         composable(Routes.HOME) {
-            val vm: HomeViewModel = viewModel(factory = HomeViewModel.Factory(repository))
+            val appCtx = LocalContext.current.applicationContext
+            val vm: HomeViewModel = viewModel(factory = HomeViewModel.Factory(repository, appCtx))
             HomeScreen(
                 viewModel = vm,
                 onAddMedication = { nav.navigate(Routes.edit(0L)) },

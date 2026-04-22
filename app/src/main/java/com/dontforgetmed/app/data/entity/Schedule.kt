@@ -5,7 +5,11 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-// daysOfWeek — bitmask: bit 0 = Sunday ... bit 6 = Saturday. 127 = every day.
+enum class FrequencyType { DAILY_AT_TIME, EVERY_N_HOURS, EVERY_N_DAYS }
+
+// DAILY_AT_TIME: daysOfWeek bitmask (bit 0 = Sunday..6 = Saturday), minuteOfDay is the trigger.
+// EVERY_N_HOURS: anchor at minuteOfDay, repeat every intervalHours (while within a day window).
+// EVERY_N_DAYS: minuteOfDay on every Nth day from a start date (intervalDays).
 @Entity(
     tableName = "schedules",
     foreignKeys = [
@@ -24,4 +28,8 @@ data class Schedule(
     val minuteOfDay: Int,
     val daysOfWeek: Int = 127,
     val active: Boolean = true,
+    val frequencyType: FrequencyType = FrequencyType.DAILY_AT_TIME,
+    val intervalHours: Int = 0,
+    val intervalDays: Int = 1,
+    val startDate: Long = 0L,
 )

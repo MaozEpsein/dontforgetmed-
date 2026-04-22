@@ -14,7 +14,7 @@ import com.dontforgetmed.app.data.entity.Schedule
 
 @Database(
     entities = [Medication::class, Schedule::class, DoseLog::class],
-    version = 1,
+    version = 2,
     exportSchema = false,
 )
 @TypeConverters(Converters::class)
@@ -32,7 +32,8 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "dontforgetmed.db",
-                ).build().also { INSTANCE = it }
+                ).fallbackToDestructiveMigration()
+                    .build().also { INSTANCE = it }
             }
     }
 }

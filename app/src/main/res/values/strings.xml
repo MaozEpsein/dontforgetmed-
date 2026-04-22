@@ -38,5 +38,19 @@
     <string name="open_exact_alarm_settings">הגדרות התראות מדויקות</string>
     <string name="open_app_settings">הגדרות האפליקציה</string>
     <string name="version_label">גרסה %1$s</string>
+    <string name="stock_low_title">מלאי נמוך: %1$s</string>
+    <string name="stock_low_body">נשארו רק %1$d כדורים. לא לשכוח לחדש!</string>
+    <string name="stock_empty_body">נגמר המלאי של התרופה. צריך לחדש בהקדם.</string>
+    <string name="undo">בטל</string>
+    <string name="dose_marked_taken">סומן כנלקח</string>
+    <string name="dose_marked_skipped">סומן כדולג</string>
+    <string name="field_icon">אייקון</string>
+    <string name="field_frequency">תדירות</string>
+    <string name="freq_daily">יומי בשעות קבועות</string>
+    <string name="freq_hours">כל X שעות</string>
+    <string name="freq_days">כל X ימים</string>
+    <string name="field_interval_hours">מרווח בשעות</string>
+    <string name="field_interval_days">מרווח בימים</string>
+    <string name="field_anchor_time">שעת תחילה</string>
     <string name="share_with_friend">שתף עם חבר</string>
 </resources>
