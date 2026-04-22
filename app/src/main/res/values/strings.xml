@@ -9,5 +9,25 @@
     <string name="settings">הגדרות</string>
     <string name="taken_status">נלקח ✓</string>
     <string name="skipped_status">דולג</string>
+    <string name="edit_medication">עריכת תרופה</string>
+    <string name="back">חזרה</string>
+    <string name="delete">מחיקה</string>
+    <string name="cancel">ביטול</string>
+    <string name="ok">אישור</string>
+    <string name="save">שמירה</string>
+    <string name="remove">הסר</string>
+    <string name="add_time">+ הוסף שעה</string>
+    <string name="field_name">שם התרופה</string>
+    <string name="field_dosage">מינון</string>
+    <string name="field_dosage_hint">למשל: כדור אחד</string>
+    <string name="field_stock">מלאי נוכחי</string>
+    <string name="field_low_stock">התרעה במלאי נמוך</string>
+    <string name="field_notes">הערות</string>
+    <string name="field_color">צבע</string>
+    <string name="field_times">שעות נטילה</string>
+    <string name="delete_confirm_title">למחוק את התרופה?</string>
+    <string name="delete_confirm_text">הפעולה תמחק את כל התזמונים וההיסטוריה של התרופה.</string>
+    <string name="notif_title">זמן ל%1$s</string>
+    <string name="notif_default_body">הגיע הזמן ליטול את התרופה</string>
     <string name="share_with_friend">שתף עם חבר</string>
 </resources>

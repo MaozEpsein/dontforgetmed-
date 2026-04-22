@@ -1,6 +1,7 @@
 package com.dontforgetmed.app.ui.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -50,6 +51,7 @@ import com.dontforgetmed.app.util.Time
 fun HomeScreen(
     viewModel: HomeViewModel,
     onAddMedication: () -> Unit,
+    onEditMedication: (Long) -> Unit = {},
 ) {
     val doses by viewModel.doses.collectAsStateWithLifecycle()
 
@@ -86,6 +88,7 @@ fun HomeScreen(
                         dose = dose,
                         onTake = { viewModel.markTaken(dose.log) },
                         onSkip = { viewModel.markSkipped(dose.log) },
+                        onEdit = { onEditMedication(dose.medication.id) },
                     )
                 }
             }
@@ -112,13 +115,14 @@ private fun DoseCard(
     dose: TodayDose,
     onTake: () -> Unit,
     onSkip: () -> Unit,
+    onEdit: () -> Unit = {},
 ) {
     val resolved = dose.log.status != DoseStatus.PENDING
     val medColor = runCatching { Color(android.graphics.Color.parseColor(dose.medication.colorHex)) }
         .getOrDefault(MaterialTheme.colorScheme.primary)
 
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().clickable { onEdit() },
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
         ),
