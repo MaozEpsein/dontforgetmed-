@@ -27,10 +27,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.dontforgetmed.app.R
-import com.dontforgetmed.app.ui.theme.Coral
-import com.dontforgetmed.app.ui.theme.MintLight
-import com.dontforgetmed.app.ui.theme.TealDeep
-import com.dontforgetmed.app.ui.theme.TealPrimary
+import com.dontforgetmed.app.ui.theme.LavenderDeep
+import com.dontforgetmed.app.ui.theme.LavenderPrimary
+import com.dontforgetmed.app.ui.theme.LilacLight
+import com.dontforgetmed.app.ui.theme.Rose
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -44,7 +44,7 @@ fun HomeHeader(
 ) {
     val progress = if (totalCount > 0) takenCount.toFloat() / totalCount else 0f
     val gradient = Brush.linearGradient(
-        colors = listOf(TealDeep, TealPrimary, MintLight),
+        colors = listOf(LavenderDeep, LavenderPrimary, LilacLight),
     )
 
     Box(
@@ -98,7 +98,7 @@ fun HomeHeader(
                     total = totalCount,
                     size = 120.dp,
                     primaryColor = Color.White,
-                    secondaryColor = Coral,
+                    secondaryColor = Rose,
                 )
                 Column(Modifier.weight(1f)) {
                     Text(

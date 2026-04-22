@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.dontforgetmed.app.DontForgetMedApp
+import com.dontforgetmed.app.widget.WidgetUpdater
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,6 +35,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val medication = repo.getMedication(medicationId) ?: return
         val logId = repo.ensureDoseLog(medicationId, scheduleId, scheduledAt)
         ReminderNotifications.show(context, medication, scheduleId, logId, scheduledAt)
+        WidgetUpdater.updateAll(context)
 
         // schedule next recurring occurrence
         val schedules = repo.getSchedulesFor(medicationId)

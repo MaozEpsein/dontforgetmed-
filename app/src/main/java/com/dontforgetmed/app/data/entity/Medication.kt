@@ -11,7 +11,7 @@ data class Medication(
     val notes: String = "",
     val stockCount: Int = 0,
     val lowStockThreshold: Int = 5,
-    val colorHex: String = "#00897B",
+    val colorHex: String = "#6A5AE0",
     val iconKey: String = "pill",
     val createdAt: Long = System.currentTimeMillis(),
     val archived: Boolean = false,

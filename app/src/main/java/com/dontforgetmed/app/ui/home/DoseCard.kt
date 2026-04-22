@@ -178,7 +178,7 @@ private fun DoseCardHeader(dose: TodayDose, medColor: Color) {
             )
             if (dose.medication.dosage.isNotBlank()) {
                 Text(
-                    text = dose.medication.dosage,
+                    text = stringResource(R.string.dosage_prefix, dose.medication.dosage),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )

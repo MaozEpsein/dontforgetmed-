@@ -1,11 +1,11 @@
 :root {
-  --teal: #00897b;
-  --teal-dark: #00695c;
-  --green: #43a047;
-  --sand: #f5f5f0;
-  --charcoal: #1f2a2e;
-  --text: #263238;
-  --muted: #607d8b;
+  --teal: #6a5ae0;
+  --teal-dark: #4e3fc4;
+  --green: #9389f0;
+  --sand: #f9f7ff;
+  --charcoal: #1e1b3a;
+  --text: #1e1b3a;
+  --muted: #5f5a7a;
 }
 
 * { box-sizing: border-box; }

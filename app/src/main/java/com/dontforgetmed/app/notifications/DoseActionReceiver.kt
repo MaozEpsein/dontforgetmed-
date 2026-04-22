@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import com.dontforgetmed.app.DontForgetMedApp
 import com.dontforgetmed.app.data.entity.DoseStatus
+import com.dontforgetmed.app.widget.WidgetUpdater
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,6 +36,7 @@ class DoseActionReceiver : BroadcastReceiver() {
                 if (status == DoseStatus.TAKEN && med != null) {
                     StockNotifications.maybeNotifyLowStock(context, med)
                 }
+                WidgetUpdater.updateAll(context)
             } finally {
                 pending.finish()
             }

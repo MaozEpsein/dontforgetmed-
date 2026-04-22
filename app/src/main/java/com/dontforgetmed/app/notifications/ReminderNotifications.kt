@@ -35,7 +35,10 @@ object ReminderNotifications {
         val skipPi = actionPendingIntent(context, logId, DoseActionReceiver.ACTION_SKIP)
         val snoozePi = snoozePendingIntent(context, logId)
 
-        val dosageLine = medication.dosage.ifBlank { context.getString(R.string.notif_default_body) }
+        val dosageLine = if (medication.dosage.isNotBlank())
+            context.getString(R.string.dosage_prefix, medication.dosage)
+        else
+            context.getString(R.string.notif_default_body)
         val title = context.getString(R.string.notif_title, medication.name)
 
         val builder = NotificationCompat.Builder(context, NotificationChannels.REMINDERS_ID)

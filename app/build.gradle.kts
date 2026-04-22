@@ -67,6 +67,10 @@ dependencies {
     // WorkManager
     implementation("androidx.work:work-runtime-ktx:2.9.1")
 
+    // Glance widgets
+    implementation("androidx.glance:glance-appwidget:1.1.1")
+    implementation("androidx.glance:glance-material3:1.1.1")
+
     // ZXing — QR generation
     implementation("com.google.zxing:core:3.5.3")
 

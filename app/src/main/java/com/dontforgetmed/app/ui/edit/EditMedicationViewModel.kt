@@ -9,6 +9,7 @@ import com.dontforgetmed.app.data.entity.FrequencyType
 import com.dontforgetmed.app.data.entity.Medication
 import com.dontforgetmed.app.data.entity.Schedule
 import com.dontforgetmed.app.notifications.AlarmScheduler
+import com.dontforgetmed.app.widget.WidgetUpdater
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,7 +25,7 @@ data class EditUiState(
     val notes: String = "",
     val stockCount: String = "0",
     val lowStockThreshold: String = "5",
-    val colorHex: String = "#00897B",
+    val colorHex: String = "#6A5AE0",
     val iconKey: String = "pill",
     val frequencyType: FrequencyType = FrequencyType.DAILY_AT_TIME,
     val intervalHours: String = "8",
@@ -148,6 +149,7 @@ class EditMedicationViewModel(
         }
         repo.replaceSchedules(savedId, schedules)
         repo.getSchedulesFor(savedId).forEach { AlarmScheduler.scheduleNext(appContext, it) }
+        WidgetUpdater.updateAll(appContext)
         _state.update { it.copy(saved = true) }
     }
 
@@ -157,6 +159,7 @@ class EditMedicationViewModel(
             repo.getSchedulesFor(s.id).forEach { AlarmScheduler.cancel(appContext, it) }
             repo.getMedication(s.id)?.let { repo.deleteMedication(it) }
         }
+        WidgetUpdater.updateAll(appContext)
         _state.update { it.copy(saved = true) }
     }
 

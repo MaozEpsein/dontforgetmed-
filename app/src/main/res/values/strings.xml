@@ -11,6 +11,8 @@
     <string name="section_schedule">תזמון</string>
     <string name="section_stock">מלאי</string>
     <string name="preview_name_placeholder">שם התרופה</string>
+    <string name="dosage_prefix">מינון: %1$s</string>
+    <string name="widget_description">התרופה הבאה להיום</string>
     <string name="take">נלקח</string>
     <string name="skip">דלג</string>
     <string name="today">היום</string>

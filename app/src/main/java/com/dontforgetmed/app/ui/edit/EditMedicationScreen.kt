@@ -67,7 +67,7 @@ import com.dontforgetmed.app.ui.icons.MedIconCatalog
 import com.dontforgetmed.app.util.Time
 
 private val PRESET_COLORS = listOf(
-    "#0B9E8A", "#43A047", "#1E88E5", "#8E24AA", "#FF9B82", "#FB8C00", "#6D4C41", "#546E7A",
+    "#6A5AE0", "#9389F0", "#4E3FC4", "#8E24AA", "#FFA6B5", "#E67F92", "#5E72EB", "#546E7A",
 )
 private val DAY_LABELS = listOf("א", "ב", "ג", "ד", "ה", "ו", "ש")
 
@@ -389,7 +389,7 @@ private fun PreviewCard(state: EditUiState) {
                     )
                     if (state.dosage.isNotBlank()) {
                         Text(
-                            state.dosage,
+                            stringResource(R.string.dosage_prefix, state.dosage),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )

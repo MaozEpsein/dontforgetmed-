@@ -12,6 +12,7 @@ import com.dontforgetmed.app.data.entity.Medication
 import com.dontforgetmed.app.data.entity.Schedule
 import com.dontforgetmed.app.notifications.StockNotifications
 import com.dontforgetmed.app.util.Time
+import com.dontforgetmed.app.widget.WidgetUpdater
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -81,15 +82,18 @@ class HomeViewModel(
         val med = repo.markDose(log.id, DoseStatus.TAKEN)
         med?.let { StockNotifications.maybeNotifyLowStock(appContext, it) }
         _events.trySend(HomeEvent.DoseMarked(log.id, takenLabel = true))
+        WidgetUpdater.updateAll(appContext)
     }
 
     fun markSkipped(log: DoseLog) = viewModelScope.launch {
         repo.markDose(log.id, DoseStatus.SKIPPED)
         _events.trySend(HomeEvent.DoseMarked(log.id, takenLabel = false))
+        WidgetUpdater.updateAll(appContext)
     }
 
     fun undo(logId: Long) = viewModelScope.launch {
         repo.revertDose(logId)
+        WidgetUpdater.updateAll(appContext)
     }
 
     private fun occurrencesToday(sch: Schedule): List<Long> = when (sch.frequencyType) {
