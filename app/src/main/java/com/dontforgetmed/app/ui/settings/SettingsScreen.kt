@@ -55,7 +55,7 @@ import androidx.compose.ui.unit.dp
 import com.dontforgetmed.app.R
 import com.dontforgetmed.app.util.Qr
 
-const val DOWNLOAD_URL = "https://github.com/MaozEpsein/dontforgetmed-/releases/download/v0.1.1/DontForgetMed-v0.1.1.apk"
+const val DOWNLOAD_URL = "https://github.com/MaozEpsein/dontforgetmed-/releases/latest/download/DontForgetMed.apk"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

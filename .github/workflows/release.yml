@@ -30,12 +30,12 @@ jobs:
       - name: Rename APK
         run: |
           mkdir -p out
-          cp app/build/outputs/apk/debug/app-debug.apk "out/DontForgetMed-${GITHUB_REF_NAME}.apk"
+          cp app/build/outputs/apk/debug/app-debug.apk out/DontForgetMed.apk
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: out/DontForgetMed-*.apk
+          files: out/DontForgetMed.apk
           name: "Don't Forget Med ${{ github.ref_name }}"
           body: |
             📱 **Don't Forget Med** — גרסה ${{ github.ref_name }}
