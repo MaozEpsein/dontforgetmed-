@@ -1,91 +1,119 @@
-# Don't Forget Med
+<div align="center">
 
-אפליקציית אנדרואיד להזכרת בליעת כדורים ותרופות בזמן.
+# 💊 Don't Forget Med
 
-## תיאור
+### לא לשכוח אף פעם לקחת תרופה.
 
-**Don't Forget Med** היא אפליקציה פשוטה ונוחה שעוזרת לך לא לשכוח ליטול את התרופות שלך. האפליקציה שולחת התראות בזמנים שהגדרת, מאפשרת לעקוב אחרי היסטוריית הנטילה, ומתריעה כאשר מלאי הכדורים שלך עומד להיגמר.
+אפליקציית אנדרואיד עדינה, נקייה ובעברית — שמזכירה לכם את התרופות בזמן, עוקבת אחרי המלאי, ודואגת שלא יחסר לכם כלום.
 
-## תכונות עיקריות
+[![Latest Release](https://img.shields.io/github/v/release/MaozEpsein/dontforgetmed-?label=⬇️%20הורדה&color=7C6FE8&style=for-the-badge)](https://github.com/MaozEpsein/dontforgetmed-/releases/latest)
+[![Android](https://img.shields.io/badge/Android-8.0%2B-3DDC84?logo=android&logoColor=white&style=for-the-badge)](https://www.android.com/)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.0-7F52FF?logo=kotlin&logoColor=white&style=for-the-badge)](https://kotlinlang.org/)
+[![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-Material%203-4285F4?logo=jetpackcompose&logoColor=white&style=for-the-badge)](https://developer.android.com/jetpack/compose)
 
-- ⏰ **התראות מותאמות אישית** — קביעת זמני נטילה לכל תרופה בנפרד
-- 💊 **ניהול תרופות** — הוספה, עריכה ומחיקה של תרופות עם מינון ושעות
-- 📅 **לוח זמנים יומי** — תצוגה ברורה של כל הכדורים שיש לקחת במהלך היום
-- ✅ **מעקב נטילה** — סימון כל נטילה וצפייה בהיסטוריה
-- 📦 **ניהול מלאי** — התראה כשמספר הכדורים שנותרו נמוך
-- 🔁 **חזרה יומית/שבועית** — תמיכה בתזמונים חוזרים גמישים
-- 🌙 **התראות גם כשהמסך כבוי** — שימוש ב-AlarmManager לאמינות מקסימלית
-- 🔒 **פרטיות מלאה** — כל הנתונים נשמרים מקומית במכשיר
-- 🔗 **שיתוף בקליק** — קישור הורדה מהיר לחברים דרך WhatsApp / SMS / כל אפליקציה
+</div>
 
-## עיצוב וחוויית משתמש
+---
 
-האפליקציה מתוכננת להיות **נעימה לעין ופשוטה לשימוש** — מתאימה לכל גיל.
+## 📱 צילומי מסך
 
-- 🎨 **Material 3** — עיצוב מודרני ונקי עם Jetpack Compose
-- 🌓 **Light / Dark Mode** — מתאים את עצמו אוטומטית להעדפות המכשיר
-- 🔤 **טיפוגרפיה גדולה וברורה** — קריא גם למבוגרים ולבעלי ראייה מוגבלת
-- 🎯 **מסכים ממוקדים** — פעולה אחת מרכזית בכל מסך, בלי עומס ויזואלי
-- 🌈 **פלטת צבעים רגועה** — גוונים מרגיעים (ירוק/טורקיז) במקום אדום מלחיץ
-- 👆 **כפתורים גדולים ונגישים** — נוח ללחיצה גם בעיניים עצומות בבוקר
-- 🇮🇱 **תמיכה מלאה ב-RTL ובעברית**
+<div align="center">
 
-## שיתוף והורדה
+<table>
+<tr>
+<td align="center" width="50%">
+<img src="screenshot/home.jpeg" alt="מסך הבית" width="280"/><br/>
+<sub><b>מסך הבית — תרופות היום במבט אחד</b></sub>
+</td>
+<td align="center" width="50%">
+<img src="screenshot/add-medication.jpeg" alt="הוספת תרופה" width="280"/><br/>
+<sub><b>הוספת תרופה — אייקון וצבע לכל אחת</b></sub>
+</td>
+</tr>
+</table>
 
-אחת ממטרות העל של האפליקציה: **קל לשלוח לחברים**.
+</div>
 
-- 📲 **כפתור "שתף עם חבר"** במסך ההגדרות — פותח את גיליון השיתוף של אנדרואיד עם קישור מוכן
-- 🔗 **קישור הורדה קצר וקליט** (למשל `dontforgetmed.app` או bit.ly מותאם) המפנה ישירות ל-Google Play או ל-APK
-- 📱 **QR Code מובנה** במסך השיתוף — סריקה מהירה מבלי לשלוח הודעה
-- 🚀 **דף נחיתה פשוט** (GitHub Pages) עם כפתור הורדה ענק ו-screenshots
-- 📦 **שחרור גרסאות אוטומטי** דרך GitHub Releases — כל push מתויג מייצר APK להורדה ישירה
+---
 
-## דרישות מערכת
+## ✨ מה האפליקציה עושה
 
-- Android 8.0 (API 26) ומעלה
-- הרשאת שליחת התראות (Notifications)
-- הרשאת התראות מדויקות (Exact Alarms) — באנדרואיד 12+
+- ⏰ **התראות אמינות** — גם כשהמסך כבוי, גם בלי אינטרנט (AlarmManager)
+- 💊 **ניהול תרופות אישי** — שם, מינון, הערות, אייקון וצבע מותאמים
+- 📅 **מסך בית יומי** — כל התרופות של היום, מסודרות לפי שעה, עם פרוגרס עיגול
+- ✅ **נלקח / דלג / דחיה** — כל התראה עם כפתורי פעולה מהירים (15/30/60 דק' או שעה מותאמת)
+- 📦 **ניהול מלאי** — התראה אוטומטית לפני שתרופה נגמרת
+- 🏠 **ווידג'ט למסך הבית** — לחיצה אחת מסמנת "נלקח" בלי לפתוח את האפליקציה
+- 🔁 **תזמון גמיש** — יומי, שבועי, ימים ספציפיים בשבוע
+- 🔒 **הכל נשאר אצלך** — 100% מקומי, ללא שרתים, ללא חשבון, ללא מעקב
+- 🇮🇱 **עברית מלאה + RTL** — תוכנן מהיסוד לחוויה ישראלית
 
-## טכנולוגיות
+---
 
-- **שפה:** Kotlin
-- **ממשק משתמש:** Jetpack Compose
-- **ארכיטקטורה:** MVVM
-- **בסיס נתונים:** Room
-- **תזמון:** AlarmManager + WorkManager
-- **התראות:** NotificationCompat
+## 🎨 עיצוב
 
-## מבנה הפרויקט
+האפליקציה בפלטה **Lavender Calm** — גוונים רגועים של סגול/לבנדר שנבחרו בכוונה כדי *לא* לייצר תחושת דחיפות אדומה סביב משהו שאמור להיות חלק מהשגרה. טיפוגרפיה גדולה, מרווחים נדיבים, כפתורים נוחים — גם למשתמשים מבוגרים יותר.
+
+- **Material 3** עם Jetpack Compose
+- **Light / Dark** אוטומטי לפי העדפות המכשיר
+- **אנימציות עדינות** (motion לא מוגזם) לכל מעבר
+- **אייקונים + צבעים לבחירה** לכל תרופה — זיהוי מיידי במבט
+
+---
+
+## ⬇️ הורדה והתקנה
+
+1. הורד את ה-APK האחרון מ-[דף השחרור](https://github.com/MaozEpsein/dontforgetmed-/releases/latest)
+2. פתח את הקובץ בטלפון — אם אנדרואיד חוסם, אפשר "התקנה ממקורות לא ידועים" ← אפליקציה זו
+3. בפתיחה הראשונה — אשר הרשאות **התראות** ו-**התראות מדויקות** (Exact Alarms)
+
+> דרישות: Android 8.0 (API 26) ומעלה
+
+---
+
+## 🛠️ מתחת למכסה
+
+| תחום | טכנולוגיה |
+| --- | --- |
+| שפה | Kotlin 2.0 |
+| UI | Jetpack Compose + Material 3 |
+| ארכיטקטורה | MVVM |
+| Persistence | Room |
+| תזמון | AlarmManager + WorkManager |
+| בנייה | Gradle 9, AGP 8.5 |
+| CI/CD | GitHub Actions — APK אוטומטי בכל `v*` tag |
 
 ```
 app/
-├── data/          # Room entities, DAO, repository
-├── ui/            # Compose screens & components
-├── notifications/ # Notification & alarm scheduling
-├── viewmodel/     # ViewModels
-└── utils/         # Helpers & extensions
+├── data/           # Room entities, DAO, repository
+├── ui/             # Compose screens, theme, components
+├── notifications/  # AlarmManager scheduling & receivers
+├── widget/         # Home-screen glance widget
+└── util/           # Helpers, prefs, extensions
 ```
 
-## התקנה
+---
 
-1. שכפול הפרויקט:
-   ```bash
-   git clone <repo-url>
-   cd "Don't Forget Med"
-   ```
-2. פתיחה ב-Android Studio
-3. סנכרון Gradle
-4. הרצה על מכשיר או אמולטור
+## 👨‍💻 להרצה מקומית
 
-## שימוש
+```bash
+git clone https://github.com/MaozEpsein/dontforgetmed-.git
+cd dontforgetmed-
+./gradlew assembleDebug
+```
 
-1. פתח את האפליקציה והענק הרשאת התראות
-2. הקש על **+** להוספת תרופה חדשה
-3. הזן שם תרופה, מינון, שעות נטילה וכמות מלאי
-4. האפליקציה תשלח התראה בכל שעה שהוגדרה
-5. הקש על ההתראה לסימון "נלקח" או "דלג"
+פתח ב-Android Studio, Sync, ו-Run.
 
-## רישיון
+---
 
-MIT License
+## 📄 רישיון
 
+MIT — מוזמנים להשתמש, לשנות, לשתף.
+
+<div align="center">
+
+<br/>
+
+נבנה באהבה, באמצעות Kotlin ו-Jetpack Compose 💜
+
+</div>
